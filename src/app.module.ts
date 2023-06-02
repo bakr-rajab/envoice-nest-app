@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { ClientModule } from './modules/client/client.module';
 import { ConfigModule } from '@nestjs/config';
+import { UserModule } from './user/user.module';
+import { UserModule } from './modules/user/user.module';
 const allModules= [UserModule, ClientModule];
 @Module({
   imports: [
@@ -13,6 +15,7 @@ const allModules= [UserModule, ClientModule];
     }),
     MongooseModule.forRoot(process.env.mongodb),
     ...allModules,
+    UserModule,
     
   ],
   controllers: [AppController],

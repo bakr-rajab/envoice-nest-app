@@ -39,6 +39,7 @@ export class Address {
     @ApiProperty()
     additionalInformation: string
 }
+
 @Schema({
     autoIndex: true,
     timestamps: {
@@ -47,7 +48,6 @@ export class Address {
     },
 })
 export class User extends OBaseEntity {
-
     @ApiProperty()
     @Prop({})
     name: string;
@@ -92,7 +92,6 @@ export class User extends OBaseEntity {
     @Prop({default:UserType.Busniss})
     type: string
 
-
     @ApiProperty()
     @Prop({ enum: [UserRole.USER, UserRole.ADMIN, UserRole.SUBUSER], default: UserRole.USER })
     role: string;
@@ -112,6 +111,7 @@ UserSchema.pre('save', async function (next) {
         let hashedPassword = await bcrypt.hash(user.password, salt);
         user.password = hashedPassword
     }
+
     next();
 });
 
