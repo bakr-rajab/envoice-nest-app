@@ -14,7 +14,7 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     public userService: UserService,
-  ) { }
+  ) {}
   sign(user: User) {
     return {
       ...user,
@@ -33,6 +33,27 @@ export class AuthService {
         { expiresIn: '1d' },
       ),
     };
+  }
+
+  async validateUser(token: string, url: string) {
+    console.log(token);
+
+    const payload = await this.jwtService.verify(token, {
+        secret: process.env.TOKEN_SECRET,
+    });
+    if (!payload) {
+      throw new UnauthorizedException();
+    }
+    const user = await this.userService.findOne(payload.id);
+    user.role.includes(url);
+
+    /**
+     * res => *
+     * 
+     */
+
+
+    return user;
   }
 
   async Login(body: LoginDto) {

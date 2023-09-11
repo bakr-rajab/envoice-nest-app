@@ -20,23 +20,29 @@ import { LicenseModule } from './modules/license/license.module';
 import { FileModule } from './modules/file/file.module';
 import { InvoiceModule } from './modules/invoice/invoice.module';
 import { IntegrationModule } from './modules/integration/integration.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { HasPermissionInterceptor } from './has-permission/has-permission.interceptor';
+import { UserService } from './modules/user/user.service';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './guards/jwt.strategy';
 const AllModules = [
   CompanyModule,
   RoleModule,
   AuthModule,
   PermissionModule,
   BranchModule,
+  UserModule,
   StaticModule,
   GroupModule,
   ItemModule,
   LicenseModule,
-  UserModule,
   ClientModule
 ];
 @Module({
   imports: [
-    ...AllModules,
     ConfigModule.forRoot({ isGlobal: true }),
+    
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -56,12 +62,18 @@ const AllModules = [
     //FileModule,
     InvoiceModule,
     IntegrationModule,
+    ...AllModules,
 
     // ServeStaticModule.forRoot({
     //   rootPath: join(__dirname, '..', 'static'),
     // }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+  // {
+  //   provide: APP_INTERCEPTOR,
+  //   useClass: HasPermissionInterceptor,
+  // }
+  ],
 })
 export class AppModule { }

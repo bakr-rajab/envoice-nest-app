@@ -14,8 +14,9 @@ export class UserController {
     return this.userService.create(user);
   }
 
-  //@UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get("all")
+  @Permissions("read:users")
   findAll(@Req() req: any) {
     console.log("get all users", req.user);
     return this.userService.findAll();
