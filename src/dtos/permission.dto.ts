@@ -10,7 +10,7 @@ export class CreatePermissionDto {
     canInsert: boolean;
 
     @ApiProperty()
-    canVeiw: boolean;
+    canView: boolean;
 
     @ApiProperty()
     canUpdate: boolean;

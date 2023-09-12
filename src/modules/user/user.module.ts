@@ -10,15 +10,17 @@ import { CompanyModule } from '../company/company.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from 'src/guards/jwt.strategy';
 import { AuthService } from '../auth/auth.service';
+import { RoutesMapper } from '@nestjs/core/middleware/routes-mapper';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Activities]),
     RoleModule
     , StaticModule
-    , CompanyModule
+    , CompanyModule,
+    
   ],
   controllers: [UserController],
-  providers: [UserService,AuthService,JwtService],
+  providers: [UserService,AuthService,JwtService,RoutesMapper],
   exports: [UserService]
 })
 export class UserModule { }

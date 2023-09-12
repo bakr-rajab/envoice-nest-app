@@ -11,6 +11,7 @@ import { AuthModule } from '../auth/auth.module';
 import { AuthService } from '../auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
+import { RoutesMapper } from '@nestjs/core/middleware/routes-mapper';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Role, Permission,User,Company])
@@ -18,7 +19,8 @@ import { UserService } from '../user/user.service';
   // AuthModule
 ],
   controllers: [RoleController],
-  providers: [RoleService,CompanyService,AuthService,JwtService,UserService],
+  
+  providers: [RoleService,CompanyService,AuthService,JwtService,UserService,RoutesMapper],
   exports: [RoleService]
 })
 export class RoleModule { }

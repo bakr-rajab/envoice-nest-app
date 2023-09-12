@@ -11,7 +11,9 @@ import { UserService } from '../user/user.service';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
     PassportModule,
     JwtModule.register({
       secret: process.env.TOKEN_SECRET,

@@ -22,6 +22,7 @@ export class PermissionService {
     // }
 
     create(body: CreatePermissionDto) {
+        
         return this.repo.save(body)
     }
 

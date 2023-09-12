@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../entities/user.entity';
 import { Repository } from 'typeorm';
@@ -7,6 +7,7 @@ import { RoleService } from '../role/role.service';
 import { CompanyService } from '../company/company.service';
 import { Role } from '../../entities/role.entity';
 import { UserRole } from 'src/enums/userRole.enum';
+import { RouterModule } from '@nestjs/core';
 
 @Injectable()
 export class UserService {
@@ -14,6 +15,7 @@ export class UserService {
     @InjectRepository(User) private readonly repo: Repository<User>,
     private readonly roleService: RoleService,
     private readonly compService: CompanyService,
+    // private readonly router: RouterModule
   ) {}
 
   async onModuleInit() {
@@ -65,6 +67,8 @@ export class UserService {
     if (!existsUser) {
       throw new UnauthorizedException('User Not Found');
     }
+    console.log(existsUser);
+    
 
     if (existsUser.password !== body.password)
       throw new UnauthorizedException('check your credintials');
@@ -92,27 +96,39 @@ export class UserService {
   }
 
   async findAll() {
-    let users = await this.repo
-      .createQueryBuilder('user')
-      .leftJoin('user.company', 'company')
-      .leftJoin('user.role', 'role')
-      .leftJoin('user.branch', 'branch')
-      .select([
-        'user.id',
-        'user.name',
-        'user.email',
-        'user.phone',
-        'user.password',
-        'company.name',
-        'company.taxNumber',
-        'company.id',
-        'role.name',
-        'branch.name_ar',
-        'branch.id',
-        'role.id',
-      ])
-      .getMany();
-    return users;
+
+
+
+    
+      // return this.router.getRoutes().map((route) => ({
+      //   method: route.method,
+      //   path: route.path,
+      //   controller: route.controller,
+      // }));
+   
+
+
+    // let users = await this.repo
+    //   .createQueryBuilder('user')
+    //   .leftJoin('user.company', 'company')
+    //   .leftJoin('user.role', 'role')
+    //   .leftJoin('user.branch', 'branch')
+    //   .select([
+    //     'user.id',
+    //     'user.name',
+    //     'user.email',
+    //     'user.phone',
+    //     'user.password',
+    //     'company.name',
+    //     'company.taxNumber',
+    //     'company.id',
+    //     'role.name',
+    //     'branch.name_ar',
+    //     'branch.id',
+    //     'role.id',
+    //   ])
+    //   .getMany();
+    // return users;
   }
 
   async findOne(id: number) {

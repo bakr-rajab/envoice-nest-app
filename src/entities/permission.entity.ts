@@ -22,7 +22,10 @@ export class Permission extends OBaseEntity {
     canInsert: boolean;
 
     @ApiProperty()
-    @Column({})
+    @Column({
+        type: Boolean,
+        nullable: false,
+    })
     canView: boolean;
 
     @ApiProperty()
@@ -34,6 +37,6 @@ export class Permission extends OBaseEntity {
     canDelete: boolean;
 
     //@ApiPropertyOptional({ type: () => Role })
-    @OneToMany(() => Role, p => p.permissions)
+    @ManyToOne(() => Role, p => p.permissions)
     role: Role;
 }
